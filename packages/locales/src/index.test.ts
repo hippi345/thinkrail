@@ -61,10 +61,18 @@ describe("resolveLocale", () => {
 	});
 
 	test("a regional variant matches the script it is written in", () => {
-		const chinese = ["en", "zh-CN"];
+		const chinese = ["en", "zh-CN", "zh-Hant"];
 		expect(resolveLocale("system", chinese, ["zh-Hans-CN"])).toBe("zh-CN");
 		expect(resolveLocale("system", chinese, ["zh-Hans"])).toBe("zh-CN");
 		expect(resolveLocale("system", chinese, ["zh"])).toBe("zh-CN");
+		expect(resolveLocale("system", chinese, ["zh-SG"])).toBe("zh-CN");
+	});
+
+	test("a traditional locale uses a local traditional catalog", () => {
+		const chinese = ["en", "zh-CN", "zh-Hant"];
+		expect(resolveLocale("system", chinese, ["zh-TW"])).toBe("zh-Hant");
+		expect(resolveLocale("system", chinese, ["zh-HK"])).toBe("zh-Hant");
+		expect(resolveLocale("system", chinese, ["zh-Hant-TW"])).toBe("zh-Hant");
 	});
 
 	test("a different script never borrows the catalog", () => {

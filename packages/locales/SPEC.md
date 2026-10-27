@@ -49,10 +49,11 @@ halves) renders through, so they cannot drift onto separate instances.
   - `resolveLocale(preference, available, systemLanguages)` — `"system"` walks `systemLanguages` and
     takes the first exact available tag, else its base language, else a tag written in the same script;
     an explicit tag is used only when available; otherwise `"en"`. The script level exists because a
-    system locale usually carries a region the catalog does not name: `zh-Hans-CN` reaches `zh-CN`
-    (both maximize to `zh-Hans`) where a base-language comparison alone stops at `zh` and misses it.
-    Scripts never cross: `zh-TW` and `zh-HK` maximize to `zh-Hant` and fall through to `en` rather than
-    borrowing the Simplified catalog.
+    system locale usually carries a region the catalog does not name: `zh`, `zh-SG`, `zh-Hans`, and
+    `zh-Hans-CN` reach the bundled `zh-CN` (each maximizes to `zh-Hans`) where a base-language comparison
+    alone stops at `zh` and misses it. Scripts never cross: `zh-TW`, `zh-HK`, and `zh-Hant-TW` maximize to
+    `zh-Hant`, so they select a local `zh-Hant` catalog when one is available and otherwise fall through to
+    `en` rather than borrowing the Simplified catalog.
   - `baseLanguage(tag)` and `fallbackChain(tag)` (`[tag, base, "en"]`, deduped).
 - **`@thinkrail/locales/react`** (browser): the initialized i18next instance (`i18n`), `useT()` — the
   `Translator` for render, a value that is **replaced whenever the language or its strings change** (a
